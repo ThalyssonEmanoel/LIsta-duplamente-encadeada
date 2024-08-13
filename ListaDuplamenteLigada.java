@@ -1,17 +1,18 @@
 public class ListaDuplamenteLigada {
-    private Nodo inicio;
-    private Nodo fim;
+    private No inicio;
+    private No fim;
     private int tamanho;
 
     /**
      * Representa um nó da lista.
+     * @author Thalysson Emanoel
      */
-    private static class Nodo {
+    private static class No {
         int valor;
-        Nodo proximo;
-        Nodo anterior;
+        No proximo;
+        No anterior;
 
-        Nodo(int valor) {
+        No(int valor) {
             this.valor = valor;
             this.proximo = null;
             this.anterior = null;
@@ -20,30 +21,37 @@ public class ListaDuplamenteLigada {
 
     /**
      * @param valor o valor a ser adicionado no início
+     * @author Thalysson Emanoel
+     *  if ---> Quando a lista está vazia, o novo nó se torna tanto o início quanto o fim da lista,
+     * garantindo que ambos os ponteiros apontem para o único nó presente.
      */
     public void AddFirst(int valor) {
-        Nodo novoNodo = new Nodo(valor);
+        No novoNo = new No(valor);
         if (inicio == null) {
-            inicio = fim = novoNodo;
+            inicio = fim = novoNo;
         } else {
-            novoNodo.proximo = inicio;
-            inicio.anterior = novoNodo;
-            inicio = novoNodo;
+            novoNo.proximo = inicio;
+            inicio.anterior = novoNo;
+            inicio = novoNo;
         }
         tamanho++;
     }
 
     /**
      * @param valor o valor a ser adicionado no fim da lista
+     * @see O valor só é adicionado se for positivo.
+     * @author Thalysson Emanoel
+     * if ---> Quando a lista está vazia, o novo nó se torna tanto o início quanto o fim da lista,
+     * garantindo que ambos os ponteiros apontem para o único nó presente.
      */
     public void AddLast(int valor) {
-        Nodo novoNodo = new Nodo(valor);
+        No novoNo = new No(valor);
         if (fim == null) {
-            inicio = fim = novoNodo;
+            inicio = fim = novoNo;
         } else {
-            fim.proximo = novoNodo;
-            novoNodo.anterior = fim;
-            fim = novoNodo;
+            fim.proximo = novoNo;
+            novoNo.anterior = fim;
+            fim = novoNo;
         }
         tamanho++;
     }
@@ -51,7 +59,8 @@ public class ListaDuplamenteLigada {
     /**
      * @param valor  o valor a ser adicionado na posição especificada
      * @param i a posição onde o valor será adicionado
-     * @throws IndexOutOfBoundsException se o i for inválido
+     * @exception IndexOutOfBoundsException se o i for inválido
+     * @author Thalysson Emanoel
      */
     public void Add(int valor, int i) {
         if (i < 0 || i > tamanho) {
@@ -63,17 +72,17 @@ public class ListaDuplamenteLigada {
         } else if (i == tamanho) {
             AddLast(valor);
         } else {
-            Nodo novoNodo = new Nodo(valor);
-            Nodo atual = inicio;
+            No novoNo = new No(valor);
+            No atual = inicio;
 
             for (int i = 0; i < i; i++) {
                 atual = atual.proximo;
             }
 
-            novoNodo.proximo = atual;
-            novoNodo.anterior = atual.anterior;
-            atual.anterior.proximo = novoNodo;
-            atual.anterior = novoNodo;
+            novoNo.proximo = atual;
+            novoNo.anterior = atual.anterior;
+            atual.anterior.proximo = novoNo;
+            atual.anterior = novoNo;
             tamanho++;
         }
     }
@@ -86,7 +95,7 @@ public class ListaDuplamenteLigada {
     }
 
     public void PrintList() {
-        Nodo atual = inicio;
+        No atual = inicio;
         while (atual != null) {
             System.out.print(atual.valor + " ");
             atual = atual.proximo;
@@ -94,10 +103,14 @@ public class ListaDuplamenteLigada {
         System.out.println();
     }
 
-    // Método Main
-    public static void main(String[] args) {
+    /**
+     * @author Thalysson Emanoel
+     * @author Caio de Oliveira
+     * @author Daniel Pereira
+     */
+        public static void main(String[] args) {
         ListaDuplamenteLigada lista = new ListaDuplamenteLigada();
-
+        
         lista.AddLast(10);
         lista.AddLast(20);
         lista.AddFirst(5);
@@ -105,7 +118,7 @@ public class ListaDuplamenteLigada {
         
         System.out.println("Lista após adições:");
         lista.PrintList(); 
-
-        System.out.println("Tamanho da lista: " + lista.tamanho()); 
-    }
+        
+        System.out.println("Tamanho: " + lista.tamanho());
+        }        
 }
