@@ -1,9 +1,3 @@
-/**
- * Código produzido por:
- * - Thalysson Emanoel;
- * - Caio de Oliveira;
- * - Daniel
- */
 public class ListaDuplamenteLigada {
     private Nodo principal;
     private Nodo finalLista;
@@ -55,7 +49,7 @@ public class ListaDuplamenteLigada {
     }
 
     /**
-     * @param valor  o valor a ser adicionadona posição especificada
+     * @param valor  o valor a ser adicionado na posição especificada
      * @param índice a posição onde o valor será adicionado
      * @throws IndexOutOfBoundsException se o índice for inválido
      */
@@ -98,5 +92,21 @@ public class ListaDuplamenteLigada {
             atual = atual.próximo;
         }
         System.out.println();
+    }
+
+    // Método principal para executar o código
+    public static void main(String[] args) {
+        ListaDuplamenteLigada lista = new ListaDuplamenteLigada();
+
+        // Testando a lista
+        lista.adicionarÚltimo(10);
+        lista.adicionarÚltimo(20);
+        lista.adicionarPrimeiro(5);
+        lista.adicionar(15, 2);
+        
+        System.out.println("Lista após adições:");
+        lista.imprimirLista(); // Esperado: 5 10 15 20
+
+        System.out.println("Tamanho da lista: " + lista.tamanho()); // Esperado: 4
     }
 }
