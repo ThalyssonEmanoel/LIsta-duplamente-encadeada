@@ -1,19 +1,19 @@
 public class ListaDuplamenteLigada {
-    private Nodo principal;
-    private Nodo finalLista;
+    private Nodo inicio;
+    private Nodo fim;
     private int tamanho;
 
     /**
      * Representa um nó da lista.
      */
-    private class Nodo {
+    private static class Nodo {
         int valor;
-        Nodo próximo;
+        Nodo proximo;
         Nodo anterior;
 
         Nodo(int valor) {
             this.valor = valor;
-            this.próximo = null;
+            this.proximo = null;
             this.anterior = null;
         }
     }
@@ -21,14 +21,14 @@ public class ListaDuplamenteLigada {
     /**
      * @param valor o valor a ser adicionado no início
      */
-    public void adicionarPrimeiro(int valor) {
+    public void AddFirst(int valor) {
         Nodo novoNodo = new Nodo(valor);
-        if (principal == null) {
-            principal = finalLista = novoNodo;
+        if (inicio == null) {
+            inicio = fim = novoNodo;
         } else {
-            novoNodo.próximo = principal;
-            principal.anterior = novoNodo;
-            principal = novoNodo;
+            novoNodo.proximo = inicio;
+            inicio.anterior = novoNodo;
+            inicio = novoNodo;
         }
         tamanho++;
     }
@@ -36,43 +36,43 @@ public class ListaDuplamenteLigada {
     /**
      * @param valor o valor a ser adicionado no fim da lista
      */
-    public void adicionarÚltimo(int valor) {
+    public void AddLast(int valor) {
         Nodo novoNodo = new Nodo(valor);
-        if (finalLista == null) {
-            principal = finalLista = novoNodo;
+        if (fim == null) {
+            inicio = fim = novoNodo;
         } else {
-            finalLista.próximo = novoNodo;
-            novoNodo.anterior = finalLista;
-            finalLista = novoNodo;
+            fim.proximo = novoNodo;
+            novoNodo.anterior = fim;
+            fim = novoNodo;
         }
         tamanho++;
     }
 
     /**
      * @param valor  o valor a ser adicionado na posição especificada
-     * @param índice a posição onde o valor será adicionado
-     * @throws IndexOutOfBoundsException se o índice for inválido
+     * @param i a posição onde o valor será adicionado
+     * @throws IndexOutOfBoundsException se o i for inválido
      */
-    public void adicionar(int valor, int índice) {
-        if (índice < 0 || índice > tamanho) {
-            throw new IndexOutOfBoundsException("Índice fora dos limites da lista.");
+    public void Add(int valor, int i) {
+        if (i < 0 || i > tamanho) {
+            throw new IndexOutOfBoundsException("Indíce fora dos limites da lista.");
         }
 
-        if (índice == 0) {
-            adicionarPrimeiro(valor);
-        } else if (índice == tamanho) {
-            adicionarÚltimo(valor);
+        if (i == 0) {
+            AddFirst(valor);
+        } else if (i == tamanho) {
+            AddLast(valor);
         } else {
             Nodo novoNodo = new Nodo(valor);
-            Nodo atual = principal;
+            Nodo atual = inicio;
 
-            for (int i = 0; i < índice; i++) {
-                atual = atual.próximo;
+            for (int i = 0; i < i; i++) {
+                atual = atual.proximo;
             }
 
-            novoNodo.próximo = atual;
+            novoNodo.proximo = atual;
             novoNodo.anterior = atual.anterior;
-            atual.anterior.próximo = novoNodo;
+            atual.anterior.proximo = novoNodo;
             atual.anterior = novoNodo;
             tamanho++;
         }
@@ -81,32 +81,31 @@ public class ListaDuplamenteLigada {
     /**
      * Retorna o número de elementos na lista.
      */
-    public int tamanho() {
-        return tamanho;
+    public static int size() {
+        return size;
     }
 
-    public void imprimirLista() {
-        Nodo atual = principal;
+    public void PrintList() {
+        Nodo atual = inicio;
         while (atual != null) {
             System.out.print(atual.valor + " ");
-            atual = atual.próximo;
+            atual = atual.proximo;
         }
         System.out.println();
     }
 
-    // Método principal para executar o código
+    // Método Main
     public static void main(String[] args) {
         ListaDuplamenteLigada lista = new ListaDuplamenteLigada();
 
-        // Testando a lista
-        lista.adicionarÚltimo(10);
-        lista.adicionarÚltimo(20);
-        lista.adicionarPrimeiro(5);
-        lista.adicionar(15, 2);
+        lista.AddLast(10);
+        lista.AddLast(20);
+        lista.AddFirst(5);
+        lista.Add(15, 2);
         
         System.out.println("Lista após adições:");
-        lista.imprimirLista(); // Esperado: 5 10 15 20
+        lista.PrintList(); 
 
-        System.out.println("Tamanho da lista: " + lista.tamanho()); // Esperado: 4
+        System.out.println("Tamanho da lista: " + lista.tamanho()); 
     }
 }
