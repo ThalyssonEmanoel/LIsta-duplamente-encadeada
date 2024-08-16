@@ -79,19 +79,56 @@ public class ListaDuplamenteLigada {
     }
 
     /**
+     * Retorna o valor do nó na posição especificada.
+     * @param posição a posição do nó
+     * @return o valor do nó na posição especificada
+     * @throws IndexOutOfBoundsException se a posição for inválida
+     */
+    public int get(int posição) {
+        if (posição < 0 || posição >= tamanho) {
+            throw new IndexOutOfBoundsException("Posição fora dos limites da lista.");
+        }
+
+        Nodo atual = principal;
+        for (int i = 0; i < posição; i++) {
+            atual = atual.próximo;
+        }
+        return atual.valor;
+    }
+
+    /**
      * Retorna o número de elementos na lista.
      */
-    public int tamanho() {
+    public int size() {
         return tamanho;
     }
 
-    public void imprimirLista() {
+    /**
+     * Limpa todos os nós da lista.
+     */
+    public void clear() {
+        principal = null;
+        finalLista = null;
+        tamanho = 0;
+    }
+
+    /**
+     * Retorna uma representação em string de todos os elementos da lista, do início ao fim.
+     * @return uma string contendo todos os elementos da lista separados por um espaço
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         Nodo atual = principal;
         while (atual != null) {
-            System.out.print(atual.valor + " ");
+            sb.append(atual.valor).append(" ");
             atual = atual.próximo;
         }
-        System.out.println();
+        return sb.toString().trim();
+    }
+
+    public void imprimirLista() {
+        System.out.println(this.toString());
     }
 
     // Método principal para executar o código
@@ -107,6 +144,16 @@ public class ListaDuplamenteLigada {
         System.out.println("Lista após adições:");
         lista.imprimirLista(); // Esperado: 5 10 15 20
 
-        System.out.println("Tamanho da lista: " + lista.tamanho()); // Esperado: 4
+        System.out.println("Tamanho da lista: " + lista.size()); // Esperado: 4
+
+        // Testando o método get
+        System.out.println("Elemento na posição 2: " + lista.get(2)); // Esperado: 15
+
+        // Testando o método clear
+        lista.clear();
+        System.out.println("Lista após clear():");
+        lista.imprimirLista(); // Esperado: (lista vazia)
+
+        System.out.println("Tamanho da lista após clear(): " + lista.size()); // Esperado: 0
     }
 }
