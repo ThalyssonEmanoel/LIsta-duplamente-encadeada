@@ -1,112 +1,151 @@
 public class ListaDuplamenteLigada {
-    private Nodo principal;
-    private Nodo finalLista;
+    private No inicio;
+    private No fim;
     private int tamanho;
 
     /**
      * Representa um nó da lista.
      */
-    private class Nodo {
+    class No {
         int valor;
-        Nodo próximo;
-        Nodo anterior;
+        No proximo;
+        No anterior;
 
-        Nodo(int valor) {
+        No(int valor) {
             this.valor = valor;
-            this.próximo = null;
+            this.proximo = null;
             this.anterior = null;
         }
     }
 
     /**
+     * Adiciona um valor no início da lista.
      * @param valor o valor a ser adicionado no início
      */
-    public void adicionarPrimeiro(int valor) {
-        Nodo novoNodo = new Nodo(valor);
-        if (principal == null) {
-            principal = finalLista = novoNodo;
+    public void AddFirst(int valor) {
+        No novoNo = new No(valor);
+        if (inicio == null) {
+            inicio = fim = novoNo;
         } else {
-            novoNodo.próximo = principal;
-            principal.anterior = novoNodo;
-            principal = novoNodo;
+            novoNo.proximo = inicio;
+            inicio.anterior = novoNo;
+            inicio = novoNo;
         }
         tamanho++;
     }
 
     /**
+     * Adiciona um valor no fim da lista.
      * @param valor o valor a ser adicionado no fim da lista
      */
-    public void adicionarÚltimo(int valor) {
-        Nodo novoNodo = new Nodo(valor);
-        if (finalLista == null) {
-            principal = finalLista = novoNodo;
+    public void AddLast(int valor) {
+        No novoNo = new No(valor);
+        if (fim == null) {
+            inicio = fim = novoNo;
         } else {
-            finalLista.próximo = novoNodo;
-            novoNodo.anterior = finalLista;
-            finalLista = novoNodo;
+            fim.proximo = novoNo;
+            novoNo.anterior = fim;
+            fim = novoNo;
         }
         tamanho++;
     }
 
     /**
-     * @param valor  o valor a ser adicionado na posição especificada
-     * @param índice a posição onde o valor será adicionado
-     * @throws IndexOutOfBoundsException se o índice for inválido
+     * Adiciona um valor na posição especificada.
+     * @param valor o valor a ser adicionado
+     * @param i a posição onde o valor será adicionado
+     * @exception IndexOutOfBoundsException se o i for inválido
      */
-    public void adicionar(int valor, int índice) {
-        if (índice < 0 || índice > tamanho) {
+    public void Add(int valor, int i) {
+        if (i < 0 || i > tamanho) {
             throw new IndexOutOfBoundsException("Índice fora dos limites da lista.");
         }
 
-        if (índice == 0) {
-            adicionarPrimeiro(valor);
-        } else if (índice == tamanho) {
-            adicionarÚltimo(valor);
+        if (i == 0) {
+            AddFirst(valor);
+        } else if (i == tamanho) {
+            AddLast(valor);
         } else {
-            Nodo novoNodo = new Nodo(valor);
-            Nodo atual = principal;
+            No novoNo = new No(valor);
+            No atual = inicio;
 
-            for (int i = 0; i < índice; i++) {
-                atual = atual.próximo;
+            // Navega até o nó na posição i
+            for (int j = 0; j < i - 1; j++) {
+                atual = atual.proximo;
             }
 
-            novoNodo.próximo = atual;
-            novoNodo.anterior = atual.anterior;
-            atual.anterior.próximo = novoNodo;
-            atual.anterior = novoNodo;
+            // Atualiza os ponteiros para inserir o novo nó
+            novoNo.proximo = atual.proximo;
+            novoNo.anterior = atual;
+            atual.proximo.anterior = novoNo;
+            atual.proximo = novoNo;
+
             tamanho++;
         }
     }
 
     /**
-     * Retorna o número de elementos na lista.
+     * Remove o último nó da lista e retorna seu valor.
+     * @return o valor do nó removido
+     * @exception NoSuchElementException se a lista estiver vazia
      */
-    public int tamanho() {
+    public int removeLast() {
+        if (fim == null) {
+            throw new java.util.NoSuchElementException("A lista está vazia.");
+        }
+
+        int valor = fim.valor;
+
+        if (inicio == fim) { // Se a lista tiver apenas um elemento
+            inicio = fim = null;
+        } else {
+            fim = fim.anterior;
+            fim.proximo = null;
+        }
+        tamanho--;
+
+        return valor;
+    }
+
+    /**
+     * Retorna o número de elementos na lista.
+     * @return o número de elementos na lista
+     */
+    public int size() {
         return tamanho;
     }
 
-    public void imprimirLista() {
-        Nodo atual = principal;
+    /**
+     * Imprime os elementos da lista.
+     */
+    public void PrintList() {
+        No atual = inicio;
         while (atual != null) {
             System.out.print(atual.valor + " ");
-            atual = atual.próximo;
+            atual = atual.proximo;
         }
         System.out.println();
     }
 
-    // Método principal para executar o código
     public static void main(String[] args) {
         ListaDuplamenteLigada lista = new ListaDuplamenteLigada();
-
-        // Testando a lista
-        lista.adicionarÚltimo(10);
-        lista.adicionarÚltimo(20);
-        lista.adicionarPrimeiro(5);
-        lista.adicionar(15, 2);
         
-        System.out.println("Lista após adições:");
-        lista.imprimirLista(); // Esperado: 5 10 15 20
+        lista.AddLast(10);
+        lista.AddLast(20);
+        lista.AddFirst(5);
+        lista.Add(15, 2);
+        
+        System.out.println("\n\n\n\n\n"+"Lista após adições:");
 
-        System.out.println("Tamanho da lista: " + lista.tamanho()); // Esperado: 4
-    }
+        lista.PrintList(); 
+        System.out.println("Tamanho: " + lista.size());
+        System.out.println("---------------------");
+
+        int valorRemovido = lista.removeLast();
+        System.out.println("Valor removido do fim: " + valorRemovido);
+        System.out.println("---------------------");
+        System.out.println("Lista após remoção do fim:");
+        lista.PrintList();
+        System.out.println("Tamanho: " + lista.size() + "\n\n\n\n\n");
+    }        
 }

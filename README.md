@@ -19,3 +19,8 @@
 - size(): Retorna o tamanho da lista. O(1);
 - clear(): Limpa todos os nós da lista. O(1);
 - toString(): Exibe todos os elementos da lista, do início ao fim, separados por um espaço. O(n).
+
+
+### Fontes
+
+**[Documentação oficial](https://www.oracle.com/br/technical-resources/articles/java/javadoc-tool.html#examples)**
